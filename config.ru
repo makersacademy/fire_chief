@@ -1,7 +1,4 @@
 require 'dotenv/load'
-require './auth'
-require './bot'
+require File.join(File.dirname(__FILE__), 'app/fire_chief.rb')
 
-
-# Initialize the app and create the API (bot) and Auth objects.
-run Rack::Cascade.new [API, Auth]
+run FireChief

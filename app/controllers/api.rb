@@ -1,8 +1,8 @@
-require 'sinatra/base'
-require 'slack-ruby-client'
+# This controller handles event requests
+
 require 'json'
 
-class API < Sinatra::Base
+class FireChief < Sinatra::Base
   post '/events' do
     request_data = JSON.parse(request.body.read)
     unless SLACK_CONFIG[:slack_verification_token] == request_data['token']
@@ -24,21 +24,4 @@ class API < Sinatra::Base
 
     end
   end
-end
-
-class Events
-
-  def self.reaction_added(team_id, event_data)
-    user_id = event_data['user']
-    self.send_response(team_id, user_id, "#fireteam")
-  end
-
-  def self.send_response(team_id, user_id, channel = user_id)
-      $teams[team_id]['client'].chat_postMessage(
-        as_user: 'true',
-        channel: channel,
-        text: "AN EMOJI HAPPENED!!!!"
-      )
-  end
-
 end
